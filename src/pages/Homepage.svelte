@@ -56,7 +56,7 @@
             </tr>
             <tr>
               <td>Frontend</td>
-              <td>Svelte<img class="logo" src="../src/svelte-logo-square.svg" alt="Svelte Logo"></td>
+              <td>Svelte<img class="logo" src="https://raw.githubusercontent.com/sveltejs/branding/ab67af031f2cf3c680431506a4e1ba24f7968d4d/svelte-logo.svg" alt="Svelte Logo"></td>
             </tr>
             <tr>
               <td>Testing Framework</td>
