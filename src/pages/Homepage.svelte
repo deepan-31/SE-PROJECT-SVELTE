@@ -1,16 +1,23 @@
 <title>OCCUPO | Homepage</title>
 <br />
+<div class="parallax-container">
+<!--<img src="https://raw.githubusercontent.com/deepan-31/amrita_ab3images/main/AB3_courtyard.jpg" class="responsive-img" alt="amrita" style="width:100%;height: 500px; object-fit: cover; object-position: center;" />-->
+<div class="section no-pad-bot">
+  <div class="container">
+    <br><br>
+    <h1 class="header center teal-text text-accent-4" id="title">Welcome To Amrita Occupo</h1>
+    <div class="row center">
+      <h5 class="header col s12 teal-text text-lighten-4" id="title">we aim to streamline the room
+        reservation process, enhance user experience, and provide a
+        comprehensive timetable management solution</h5>
+    </div>
+    <br><br>
+  </div>
+</div>
+<div class="parallax"><img src="https://raw.githubusercontent.com/deepan-31/amrita_ab3images/main/AB3_courtyard.jpg" alt="Unsplashed background img 1" style="transform: translate3d(-50%, 240.037px, 0px); opacity: 1;"></div>
+</div>
 <div class="container">
   <div class="section">
-    <h1 class="header center">Welcome To Amrita Occupo</h1>
-    <div class="hoverable">
-      <img
-        src="https://dt19wmazj2dns.cloudfront.net/wp-content/uploads/2020/05/amrita-vishwa-vidyapeetham-coimbatore-campus-dron-image-01-2.jpg"
-        class="responsive-img"
-        alt="amrita"
-      />
-    </div>
-
     <div class="row">
       <div class="col s12">
         <h4 class="header">Key Features:</h4>
@@ -82,5 +89,9 @@
     width: 50px; /* Adjust the width as needed */
     height: 40px; /* Adjust the height as needed */
     margin-right: 5px; /* Adjust the spacing between image and text as needed */
+  }
+  #title{
+    background-color: rgba(23, 19, 14, 0.618);
+    border-radius: 10%;
   }
 </style>

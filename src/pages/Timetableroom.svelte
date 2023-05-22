@@ -24,10 +24,9 @@
         const roomDetail = await roomResponse.json();
         return roomDetail;
       });
-      
+
       // Wait for all room details to be fetched
       roomData = await Promise.all(roomDetailsPromises);
-
     } catch (err) {
       console.error(err);
     }
@@ -60,7 +59,7 @@
   {#if !showTimetable}
     <div class="row">
       {#each roomData as room}
-        <Room {room} {handleRoomClick}/>
+        <Room {room} {handleRoomClick} />
       {/each}
     </div>
   {:else}

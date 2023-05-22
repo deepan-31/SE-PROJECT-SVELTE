@@ -65,14 +65,10 @@
   });
 </script>
 
-<style>
-  .card-content {
-    padding: 20px;
-  }
-</style>
-
 <br /><br />
 <div class="container">
+  <div class="card">
+    <div class="card-content">
   <h4>Reservation Form</h4>
   <form on:submit|preventDefault={submitForm}>
     <div class="input-field">
@@ -117,45 +113,52 @@
     <button class="btn waves-effect waves-light" type="submit">Submit</button>
   </form>
 </div>
-
+</div>
+</div>
 <!-- Show Reservations button -->
 <div class="container">
-  <button class="btn waves-effect waves-light" on:click={showReservations}>
+  <button class="btn btn-large waves-effect waves-light" on:click={showReservations}>
     Show Reservations
   </button>
 </div>
 
 <!-- Reservations Table -->
 {#if reservations.length > 0}
-<div class="container">
-  <div class="card">
-    <div class="card-content">
-      <h5>Reservations</h5>
-      <table class="highlight">
-        <thead>
-          <tr>
-            <th>Reservation ID</th>
-            <th>User ID</th>
-            <th>Slot</th>
-            <th>Reservation Date</th>
-            <th>Room ID</th>
-            <th>Reason for Reservation</th>
-          </tr>
-        </thead>
-        <tbody>
-          {#each reservations as reservation}
-          <tr>
-            <td>{reservation.reservation_id}</td>
-            <td>{reservation.user_id}</td>
-            <td>{reservation.slot}</td>
-            <td>{reservation.reservation_date}</td>
-            <td>{reservation.room_id}</td>
-            <td>{reservation.reason_for_reservation}</td>
-          </tr>
-          {/each}
-        </tbody>
-      </table>
+  <div class="container">
+    <div class="card">
+      <div class="card-content">
+        <h5>Reservations</h5>
+        <table class="highlight">
+          <thead>
+            <tr>
+              <th>Reservation ID</th>
+              <th>User ID</th>
+              <th>Slot</th>
+              <th>Reservation Date</th>
+              <th>Room ID</th>
+              <th>Reason for Reservation</th>
+            </tr>
+          </thead>
+          <tbody>
+            {#each reservations as reservation}
+              <tr>
+                <td>{reservation.reservation_id}</td>
+                <td>{reservation.user_id}</td>
+                <td>{reservation.slot}</td>
+                <td>{reservation.reservation_date}</td>
+                <td>{reservation.room_id}</td>
+                <td>{reservation.reason_for_reservation}</td>
+              </tr>
+            {/each}
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
-</div>
 {/if}
+
+<style>
+  .card-content {
+    padding: 20px;
+  }
+</style>

@@ -11,6 +11,7 @@
 
 <ul id="dropdown1" class="dropdown-content">
   <li><a href="/dashboard">Dashboard</a></li>
+  <li><a href="/rooms"> Rooms </a></li>
   <li><a href="/timetable">Timetables</a></li>
 
   <li>
@@ -27,17 +28,20 @@
 </ul>
 <nav class="teal darken-2 z-depth-3">
   <div class="nav-wrapper container">
-    <a href="#top" class="brand-logo left">OCCUPO</a>
+    
+    <a href="#top" class="brand-logo left">OCCUPO </a>
     <ul class="right hide-on-med-and-down">
       <li>
         <a href="/dashboard">Dashboard</a>
       </li>
+      <li><a href="/rooms"> Rooms </a></li>
       <li>
         <a href="/timetable">Timetables</a>
       </li>
       <li>
         <a href="/reservation">Reservation</a>
       </li>
+
       <li>
         <a href="/occupancy">Occupancy</a>
       </li>

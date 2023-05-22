@@ -22,6 +22,9 @@
 	"dependencies": {
 		"firebase": "^9.22.0",
 		"firebase-admin": "^11.8.0",
+		"flickity": "^3.0.0",
+		"flowbite": "^1.6.5",
+		"flowbite-svelte": "^0.36.4",
 		"materialize-css": "^1.0.0",
 		"svelte-routing": "^1.8.9"
 	}
