@@ -1,6 +1,7 @@
 <script>
   import { authHandlers } from "../../store/store";
   import Navbar from "../../components/Navbar.svelte";
+  import Occupation from "../../pages/Occupation.svelte";
 </script>
 
 <title>OCCUPO | Occupancy</title>
@@ -9,3 +10,4 @@
   <Navbar {authHandlers} />
 </div>
 <div />
+<Occupation/>

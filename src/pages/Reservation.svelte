@@ -1,221 +1,161 @@
 <script>
   import { onMount } from "svelte";
 
-  let roomOptions = [];
-  let selectedRoom = "";
-  let selectedSlot = "";
-  let reservationData = [];
-  let timetableId = "";
-  let userId = "";
-  let reservationDate = "";
+  let reservation = {
+    user_id: "",
+    slot: "",
+    reservation_date: "",
+    room_id: "",
+    reason_for_reservation: "",
+  };
 
-  onMount(async () => {
-    // Fetch room options
-    await fetchRoomOptions();
-  });
+  let reservations = [];
 
-  const fetchRoomOptions = async () => {
-    try {
-      const response = await fetch("http://localhost:4000/users/rooms");
-      const data = await response.json();
-      const uniqueOptions = [...new Set(data)];
-      const sortedOptions = uniqueOptions
-        .map((roomId) => ({ room_id: roomId }))
-        .sort((a, b) => a.room_id - b.room_id);
-      roomOptions = sortedOptions;
-    } catch (error) {
-      console.error(error);
+  function submitForm() {
+    // Perform form validation
+    if (
+      reservation.user_id === "" ||
+      reservation.slot === "" ||
+      reservation.reservation_date === "" ||
+      reservation.room_id === "" ||
+      reservation.reason_for_reservation === ""
+    ) {
+      alert("Please fill in all fields");
+      return;
     }
-  };
 
-  const fetchReservationData = async () => {
-    try {
-      const response = await fetch("http://localhost:4000/users/reservations");
-      reservationData = await response.json();
-    } catch (error) {
-      console.error(error);
-    }
-  };
+    // Create JSON object from form data
+    const jsonData = JSON.stringify(reservation);
 
-  const handleRoomSelect = (event) => {
-    selectedRoom = event.target.value;
-  };
-
-  const handleSlotSelect = (event) => {
-    selectedSlot = event.target.value;
-  };
-
-  const handleTimetableIdChange = (event) => {
-    timetableId = event.target.value;
-  };
-
-  const handleUserIdChange = (event) => {
-    userId = event.target.value;
-  };
-
-  const handleReservationDateChange = (event) => {
-    reservationDate = event.target.value;
-  };
-
-  const handleReservationSubmit = async (event) => {
-    event.preventDefault();
-    try {
-      await fetch("http://localhost:4000/users/reservations", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          timetable_id: timetableId,
-          user_id: userId,
-          reservation_date: reservationDate,
-          room_id: selectedRoom,
-          slot: selectedSlot,
-        }),
+    // Make the POST request
+    fetch("http://localhost:4000/users/reservations", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: jsonData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // Handle the response data
+        alert(data.message); // Show the message from the server to the user
+      })
+      .catch((error) => {
+        console.error(error);
+        alert("An error occurred while submitting the form");
       });
-      await fetchReservationData();
-      selectedRoom = "";
-      selectedSlot = "";
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  }
 
-  const renderReservationTable = () => {
-    if (reservationData.length === 0) {
-      return `<p>No reservations available.</p>`;
-    }
-    return `
-        <table class="table">
-          <thead class="thead-dark">
-            <tr>
-              <th>Reservation ID</th>
-              <th>Room ID</th>
-              <th>Slot</th>
-            </tr>
-          </thead>
-          <tbody>
-            {reservationData.map(reservation => (
-              <tr key={reservation.reservation_id}>
-                <td>{reservation.reservation_id}</td>
-                <td>{reservation.room_id}</td>
-                <td>{reservation.slot}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>`;
-  };
+  function showReservations() {
+    // Make the GET request
+    fetch("http://localhost:4000/users/reservations")
+      .then((response) => response.json())
+      .then((data) => {
+        // Update the reservations array
+        reservations = data;
+      })
+      .catch((error) => {
+        console.error(error);
+        alert("An error occurred while fetching reservations");
+      });
+  }
+
+  onMount(() => {
+    M.AutoInit();
+  });
 </script>
-<br/><br/>
+
+<style>
+  .card-content {
+    padding: 20px;
+  }
+</style>
+
+<br /><br />
 <div class="container">
-  <div class="section">
-    <div class="form-group">
-      <h2>View Reservations</h2>
-      {#if reservationData.length === 0}
-        <p>No reservations available.</p>
-      {:else}
-        <table class="table">
-          <thead class="thead-dark">
-            <tr>
-              <th>Reservation ID</th>
-              <th>Room ID</th>
-              <th>Slot</th>
-            </tr>
-          </thead>
-          <tbody>
-            {#each reservationData as reservation}
-              <tr key={reservation.reservation_id}>
-                <td>{reservation.reservation_id}</td>
-                <td>{reservation.room_id}</td>
-                <td>{reservation.slot}</td>
-              </tr>
-            {/each}
-          </tbody>
-        </table>
-      {/if}
+  <h4>Reservation Form</h4>
+  <form on:submit|preventDefault={submitForm}>
+    <div class="input-field">
+      <input type="text" id="user_id" bind:value={reservation.user_id} />
+      <label for="user_id">User ID</label>
+    </div>
+    <div class="input-field">
+      <select id="slot" bind:value={reservation.slot}>
+        <option value="" disabled selected>Select a slot</option>
+        <option value="1">Slot 1</option>
+        <option value="2">Slot 2</option>
+        <option value="3">Slot 3</option>
+        <option value="4">Slot 4</option>
+        <option value="5">Slot 5</option>
+        <option value="6">Slot 6</option>
+        <option value="7">Slot 7</option>
+        <option value="8">Slot 8</option>
+      </select>
+      <label for="slot">Slot</label>
+    </div>
+    <div class="input-field">
+      <input
+        type="date"
+        id="reservation_date"
+        bind:value={reservation.reservation_date}
+      />
+      <label for="reservation_date">Reservation Date</label>
     </div>
 
-    <div class="form-group">
-      <h2>Create Reservation</h2>
-      <form class="needs-validation" on:submit={handleReservationSubmit}>
-        <div class="form-group">
-          <label for="roomSelect">Select a Room:</label>
-          <select
-            class="form-control"
-            id="roomSelect"
-            value={selectedRoom}
-            on:change={handleRoomSelect}
-            required
-          >
-            <option value="">Select a Room</option>
-            {#each roomOptions as room}
-              <option value={room.room_id}>{room.room_id}</option>
-            {/each}
-          </select>
-        </div>
+    <div class="input-field">
+      <input type="text" id="room_id" bind:value={reservation.room_id} />
+      <label for="room_id">Room ID</label>
+    </div>
+    <div class="input-field">
+      <input
+        type="text"
+        id="reason_for_reservation"
+        bind:value={reservation.reason_for_reservation}
+      />
+      <label for="reason_for_reservation">Reason for Reservation</label>
+    </div>
+    <button class="btn waves-effect waves-light" type="submit">Submit</button>
+  </form>
+</div>
 
-        <div class="form-group">
-          <label for="slotSelect">Select a Slot:</label>
-          <select
-            class="form-control"
-            id="slotSelect"
-            value={selectedSlot}
-            on:change={handleSlotSelect}
-            required
-          >
-            <option value="">Select a Slot</option>
-            <option value="1">Slot 1</option>
-            <option value="2">Slot 2</option>
-            <option value="3">Slot 3</option>
-            <option value="4">Slot 4</option>
-            <option value="5">Slot 5</option>
-            <option value="6">Slot 6</option>
-            <option value="7">Slot 7</option>
-            <option value="8">Slot 8</option>
-          </select>
-        </div>
+<!-- Show Reservations button -->
+<div class="container">
+  <button class="btn waves-effect waves-light" on:click={showReservations}>
+    Show Reservations
+  </button>
+</div>
 
-        <div class="form-group">
-          <label for="timetableIdInput">Timetable ID:</label>
-          <input
-            type="text"
-            class="form-control"
-            id="timetableIdInput"
-            bind:value={timetableId}
-            required
-          />
-        </div>
-
-        <div class="form-group">
-          <label for="userIdInput">User ID:</label>
-          <input
-            type="text"
-            class="form-control"
-            id="userIdInput"
-            bind:value={userId}
-            required
-          />
-        </div>
-
-        <div class="form-group">
-          <label for="reservationDateInput">Reservation Date:</label>
-          <input
-            type="date"
-            class="form-control"
-            id="reservationDateInput"
-            bind:value={reservationDate}
-            required
-          />
-        </div>
-
-        <button
-          type="submit"
-          class="btn btn-primary"
-          disabled={!selectedRoom || !selectedSlot}
-        >
-          Make Reservation
-        </button>
-      </form>
+<!-- Reservations Table -->
+{#if reservations.length > 0}
+<div class="container">
+  <div class="card">
+    <div class="card-content">
+      <h5>Reservations</h5>
+      <table class="highlight">
+        <thead>
+          <tr>
+            <th>Reservation ID</th>
+            <th>User ID</th>
+            <th>Slot</th>
+            <th>Reservation Date</th>
+            <th>Room ID</th>
+            <th>Reason for Reservation</th>
+          </tr>
+        </thead>
+        <tbody>
+          {#each reservations as reservation}
+          <tr>
+            <td>{reservation.reservation_id}</td>
+            <td>{reservation.user_id}</td>
+            <td>{reservation.slot}</td>
+            <td>{reservation.reservation_date}</td>
+            <td>{reservation.room_id}</td>
+            <td>{reservation.reason_for_reservation}</td>
+          </tr>
+          {/each}
+        </tbody>
+      </table>
     </div>
   </div>
 </div>
+{/if}
