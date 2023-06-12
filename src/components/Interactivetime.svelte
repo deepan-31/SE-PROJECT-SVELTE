@@ -2,11 +2,20 @@
     let roomOptions = [];
     let selectedRoom = "";
     let timetableData = [];
-  
+    import { createEventDispatcher } from "svelte";
+
+const dispatch = createEventDispatcher();
+
+function handleGoBack() {
+  dispatch("goback");
+}
     const fetchRoomOptions = async () => {
       try {
-        const response = await fetch("http://localhost:4000/users/timetables");
-        roomOptions = await response.json();
+        const response = await fetch("http://localhost:4000/users/roomd");
+        const allRoomOptions = await response.json();
+
+        // Filter room options based on room_type
+        roomOptions = allRoomOptions.filter((room) => room.room_type === "classroom");
       } catch (error) {
         console.error(error);
       }
@@ -127,6 +136,7 @@
   </script>
   
   <main>
+    <button on:click={handleGoBack} class="btn red">Cancel</button>
     <div class="card z-depth-3">
       <div class="card-content">
         <h1>Interactive Timetable</h1>
@@ -161,9 +171,9 @@
               <td>
                 <div>{timetableData.find((t) => t.day === day && t.slot === slot).course_code}</div>
                 <div>{timetableData.find((t) => t.day === day && t.slot === slot).course_name}</div>
-                <div>{timetableData.find((t) => t.day === day && t.slot === slot).room_id}</div>
+                <!--<div>{timetableData.find((t) => t.day === day && t.slot === slot).room_id}</div>
                 <div>{timetableData.find((t) => t.day === day && t.slot === slot).day}</div>
-                <div>{timetableData.find((t) => t.day === day && t.slot === slot).slot}</div>
+                <div>{timetableData.find((t) => t.day === day && t.slot === slot).slot}</div>-->
                 <div>
                   <button class="waves-effect waves-light btn-small red" on:click={() => handleDelete(timetableData.find((t) => t.day === day && t.slot === slot).timetable_id)}>
                     <i class="material-icons">delete</i>

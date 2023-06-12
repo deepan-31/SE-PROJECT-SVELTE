@@ -58,6 +58,9 @@
   function toggleInteractiveTime() {
     showInteractiveTime = !showInteractiveTime;
   }
+  function handleGoBack() {
+    showInteractiveTime = false;
+  }
 
   onMount(async () => {
     await fetchRoomData();
@@ -74,7 +77,7 @@
     </div>
   {:else}
     {#if showInteractiveTime}
-      <Interactivetime on:cancel={toggleInteractiveTime} />
+    <Interactivetime on:cancel={toggleInteractiveTime} on:goback={handleGoBack} />
     {:else}
       <button on:click={toggleInteractiveTime} class="btn purple">Show Interactive Time</button>
       <Timetable {timetable} on:cancel={handleCancel} />
