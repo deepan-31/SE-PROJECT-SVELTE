@@ -48,7 +48,9 @@
     await fetchTimetable(roomId);
     showTimetable = true;
   }
-
+  function handleCancel() {
+    showTimetable = false;
+  }
   onMount(async () => {
     await fetchRoomData();
   });
@@ -63,6 +65,6 @@
       {/each}
     </div>
   {:else}
-    <Timetable {timetable} />
+    <Timetable {timetable} on:cancel={handleCancel} />
   {/if}
 </div>

@@ -142,7 +142,7 @@
           <div class="row">
             {#each filteredRooms as room}
               <div class="col s12 m6 l4">
-                <div class="card large hoverable light-blue lighten-3">
+                <div class="card large light-blue lighten-3">
                   <div class="card-image">
                     <img
                       src={room.image_url}
