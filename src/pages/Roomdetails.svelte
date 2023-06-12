@@ -106,7 +106,7 @@
         <div class="card z-depth-3">
           <div class="card-content">
             <h5>Rooms table</h5>
-            <table class="highlight">
+            <table class="striped">
               <thead>
                 <tr>
                   <th>Room ID</th>

@@ -1,5 +1,7 @@
 <script>
   import { createEventDispatcher } from "svelte";
+  import { saveAs } from "file-saver";
+  import Papa from "papaparse";
   const dispatch = createEventDispatcher();
 
   export let timetable;
@@ -7,11 +9,37 @@
   function handleCancel() {
     dispatch("cancel");
   }
+  async function exportTable() {
+    const table = document.getElementById("tblExport1");
+    const csv = Papa.unparse(tableToData(table));
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+    saveAs(blob, "timetable.csv");
+  }
+
+  function tableToData(table) {
+    const rows = Array.from(table.getElementsByTagName("tr"));
+    const data = [];
+
+    for (let i = 0; i < rows.length; i++) {
+      const row = rows[i];
+      const rowData = [];
+
+      const cells = row.getElementsByTagName("td");
+      for (let j = 0; j < cells.length; j++) {
+        rowData.push(cells[j].innerText);
+      }
+
+      data.push(rowData);
+    }
+
+    return data;
+  }
 </script>
 
-<div class="card  z-depth-3">
+<div>
   <button class="btn red" on:click={handleCancel}>Cancel</button>
-    <table class="striped centered yellow darken-1 responsive-table">
+  <div class="card z-depth-3">
+    <table class="striped yellow darken-4" id="tblExport1">
       <thead>
         <tr>
           <th />
@@ -40,4 +68,12 @@
         {/each}
       </tbody>
     </table>
+  </div>
+  <div>
+    <button
+      id="btnExport"
+      class="btn waves-effect waves-light light-blue"
+      on:click={exportTable}>Export to csv</button
+    >
+  </div>
 </div>

@@ -2,11 +2,13 @@
   import { onMount } from "svelte";
   import Room from "./Room.svelte";
   import Timetable from "./Timetable.svelte";
+  import Interactivetime from "../components/Interactivetime.svelte";
 
   let roomData = [];
   let selectedRoomId = null;
   let timetable = [];
   let showTimetable = false;
+  let showInteractiveTime = false;
 
   async function fetchRoomData() {
     try {
@@ -48,15 +50,21 @@
     await fetchTimetable(roomId);
     showTimetable = true;
   }
+
   function handleCancel() {
     showTimetable = false;
   }
+
+  function toggleInteractiveTime() {
+    showInteractiveTime = !showInteractiveTime;
+  }
+
   onMount(async () => {
     await fetchRoomData();
   });
 </script>
 
-<br /><br /><br /><br />
+<br /><br /><br />
 <div>
   {#if !showTimetable}
     <div class="row">
@@ -65,6 +73,12 @@
       {/each}
     </div>
   {:else}
-    <Timetable {timetable} on:cancel={handleCancel} />
+    {#if showInteractiveTime}
+      <Interactivetime on:cancel={toggleInteractiveTime} />
+    {:else}
+      <button on:click={toggleInteractiveTime} class="btn purple">Show Interactive Time</button>
+      <Timetable {timetable} on:cancel={handleCancel} />
+    {/if}
+    
   {/if}
 </div>
