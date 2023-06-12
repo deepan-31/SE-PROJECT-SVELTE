@@ -110,14 +110,14 @@
       />
       <label for="reason_for_reservation">Reason for Reservation</label>
     </div>
-    <button class="btn waves-effect waves-light" type="submit">Submit</button>
+    <button class="btn waves-effect waves-light light-blue" type="submit">Submit</button>
   </form>
 </div>
 </div>
 </div>
 <!-- Show Reservations button -->
 <div class="container">
-  <button class="btn btn-large waves-effect waves-light" on:click={showReservations}>
+  <button class="btn btn-large waves-effect waves-light light-blue" on:click={showReservations}>
     Show Reservations
   </button>
 </div>

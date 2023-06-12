@@ -49,7 +49,7 @@
         ><i class="material-icons right">close</i></span
       >
       <button
-        class="btn btn-large waves-effect waves-light"
+        class="btn btn-large waves-effect waves-light light-blue"
         on:click={authHandlers.logout}
       >
         Logout

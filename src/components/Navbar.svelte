@@ -26,7 +26,7 @@
     <a href="##" on:click={authHandlers.logout}>Logout</a>
   </li>
 </ul>
-<nav class="teal darken-2 z-depth-3">
+<nav class="blue z-depth-3">
   <div class="nav-wrapper container">
     
     <a href="#top" class="brand-logo left">OCCUPO </a>

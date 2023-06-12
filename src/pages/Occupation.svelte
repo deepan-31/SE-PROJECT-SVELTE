@@ -1,5 +1,7 @@
 <script>
   import { onMount } from 'svelte';
+  import { saveAs } from 'file-saver';
+import Papa from 'papaparse';
 
   let reservations = [];
   let timetables = [];
@@ -18,18 +20,42 @@
     const reservation = reservations.find(reservation => reservation.room_id === roomId && reservation.reservation_date === day && reservation.slot === slot);
     const timetable = timetables.find(timetable => timetable.room_id === roomId && timetable.day === day && timetable.slot === slot);
 
-    if (reservation) {
+    if (reservation || timetable) {
+      
       return 'Occupied';
-    } else if (timetable) {
-      return 'Available';
     } else {
-      return 'N/A';
+      return 'Available';
     }
   }
 
   function generateOccupancyChart() {
     showTable = true; // Set showTable to true when button is clicked
   }
+  async function exportTable() {
+  const table = document.getElementById('tblExport1');
+  const csv = Papa.unparse(tableToData(table));
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+  saveAs(blob, 'occupancy_chart.csv');
+}
+
+function tableToData(table) {
+  const rows = Array.from(table.getElementsByTagName('tr'));
+  const data = [];
+
+  for (let i = 0; i < rows.length; i++) {
+    const row = rows[i];
+    const rowData = [];
+
+    const cells = row.getElementsByTagName('td');
+    for (let j = 0; j < cells.length; j++) {
+      rowData.push(cells[j].innerText);
+    }
+
+    data.push(rowData);
+  }
+
+  return data;
+}
 </script>
 
 <style>
@@ -40,19 +66,15 @@
   .available {
     color: green;
   }
-
-  .na {
-    color: gray;
-  }
 </style>
 <br/><br/><br/><br/>
 <main class="container">
-  <button class="btn waves-effect waves-light" on:click="{generateOccupancyChart}">Generate Occupancy Chart</button>
+  <button class="btn waves-effect waves-light light-blue" on:click="{generateOccupancyChart}">Generate Occupancy Chart</button>
   <!-- Add button to generate occupancy chart -->
   {#if showTable} <!-- Show table only if showTable is true -->
   <div class="card ">
     <div class="card-content">
-      <table class="highlight">
+      <table id="tblExport1" class="highlight">
         <thead>
           <tr>
             <th>Room ID</th>
@@ -67,12 +89,17 @@
             <td>{timetable.room_id}</td>
             <td>{timetable.day}</td>
             <td>{timetable.slot}</td>
-            <td class:occupied={getStatus(timetable.room_id, timetable.day, timetable.slot) === 'Occupied'} class:available={getStatus(timetable.room_id, timetable.day, timetable.slot) === 'Available'} class:na={getStatus(timetable.room_id, timetable.day, timetable.slot) === 'N/A'}>{getStatus(timetable.room_id, timetable.day, timetable.slot)}</td>
+            <td class:occupied={getStatus(timetable.room_id, timetable.day, timetable.slot) === 'Occupied'} class:available={getStatus(timetable.room_id, timetable.day, timetable.slot) === 'Available'} >{getStatus(timetable.room_id, timetable.day, timetable.slot)}</td>
           </tr>
           {/each}
         </tbody>
       </table>
+      
     </div>
+    
+  </div>
+  <div>
+    <button id="btnExport" class="btn waves-effect waves-light light-blue" on:click="{exportTable}">Export to csv</button>
   </div>
   {/if}
 </main>

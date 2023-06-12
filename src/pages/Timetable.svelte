@@ -2,7 +2,7 @@
   export let timetable;
 </script>
 
-<table class="striped centered teal lighten-1 responsive-table">
+<table class="striped centered yellow darken-1 responsive-table z-depth-1">
   <thead>
     <tr>
       <th></th>

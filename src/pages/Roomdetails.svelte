@@ -52,13 +52,13 @@
       {#each filteredRooms as room}
       <div class="col s12 m6 l4">
 
-          <div class="card hoverable">
+          <div class="card large hoverable light-blue lighten-3" >
             <div class="card-image">
               <img src={room.image_url} alt={room.room_id} width="500" height="300" >
-              <span class="card-title highlight teal"
+              <span class="card-title highlight light-blue"
         >{room.room_id}</span>
             </div>
-            <div class="card-content teal lighten-3">
+            <div class="card-content ">
               <!--<h1>{room.room_id}</h1>-->
               <p>Floor No: {room.floor_no}</p>
               <p>Corridor ID: {room.corridor_id}</p>
